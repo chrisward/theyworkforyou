@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:title="@string/people">
+        <menu>
+            <item
+                android:id="@+id/nav_mps"
+                android:title="@string/mps" />
+            <item
+                android:id="@+id/nav_lords"
+                android:title="@string/lords" />
+        </menu>
+    </item>
+
+    <item android:title="@string/parliamentary_business">
+        <menu>
+            <item
+                android:id="@+id/nav_debates"
+                android:title="@string/debates" />
+            <item
+                android:id="@+id/nav_written_answers"
+                android:title="@string/written_answers" />
+        </menu>
+    </item>
+
+</menu>
