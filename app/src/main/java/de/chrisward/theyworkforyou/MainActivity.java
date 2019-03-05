@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import de.chrisward.theyworkforyou.view.MPListFragment;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
@@ -19,6 +21,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setupActionBar();
+
+        if (savedInstanceState == null || getSupportFragmentManager().findFragmentByTag(Constants.FRAGMENT_MPS) == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.main_content, new MPListFragment(), Constants.FRAGMENT_MPS)
+                    .commit();
+        }
+
+    }
+
+    private void setupActionBar() {
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
