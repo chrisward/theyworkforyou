@@ -5,4 +5,14 @@
     <color name="colorAccent">#D81B60</color>
     <color name="lords_red">#AD0018</color>
     <color name="commons_green">#00695C</color>
+    <color name="conservative">#166FD2</color>
+    <color name="dup">#193264</color>
+    <color name="green">#6AB023</color>
+    <color name="independent">#CCCCCC</color>
+    <color name="labour">#EE3224</color>
+    <color name="libdem">#FFBB3E</color>
+    <color name="plaid_cymru">#E0861A</color>
+    <color name="snp">#FFF95D</color>
+    <color name="sinn_fein">#CCCCCC</color>
+    <color name="speaker">#CCCCCC</color>
 </resources>

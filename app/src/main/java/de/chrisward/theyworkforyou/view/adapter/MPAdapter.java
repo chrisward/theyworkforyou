@@ -10,6 +10,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import de.chrisward.theyworkforyou.R;
+import de.chrisward.theyworkforyou.customview.CircleView;
+import de.chrisward.theyworkforyou.helper.ResourceHelper;
 import de.chrisward.theyworkforyou.model.MP;
 
 public class MPAdapter extends RecyclerView.Adapter<MPAdapter.PersonRowHolder> {
@@ -62,6 +64,7 @@ public class MPAdapter extends RecyclerView.Adapter<MPAdapter.PersonRowHolder> {
         TextView name;
         TextView party;
         TextView constituency;
+        CircleView partyColor;
 
         OnMPItemListener onMPItemListener;
 
@@ -71,6 +74,7 @@ public class MPAdapter extends RecyclerView.Adapter<MPAdapter.PersonRowHolder> {
             name = itemView.findViewById(R.id.name);
             party = itemView.findViewById(R.id.party);
             constituency = itemView.findViewById(R.id.constituency);
+            partyColor = itemView.findViewById(R.id.partyColorCircle);
             this.onMPItemListener = listener;
         }
 
@@ -78,6 +82,7 @@ public class MPAdapter extends RecyclerView.Adapter<MPAdapter.PersonRowHolder> {
             name.setText(mp.name);
             party.setText(mp.party);
             constituency.setText(mp.constituency);
+            partyColor.setCircleColor(partyColor.getResources().getColor(ResourceHelper.getPartyColor(mp.party)));
         }
 
         @Override
