@@ -2,6 +2,7 @@ package de.chrisward.theyworkforyou;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import de.chrisward.theyworkforyou.view.LordListFragment;
 import de.chrisward.theyworkforyou.view.MPListFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -67,9 +69,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_mps) {
-            //TODO: Action
+            Fragment fragment = getSupportFragmentManager()
+                    .findFragmentByTag(Constants.FRAGMENT_MPS);
+
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.main_content);
+
+            if (fragment == currentFragment) {
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+            }
+
+            if (fragment == null) {
+                fragment = new MPListFragment();
+            }
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_content, fragment)
+                    .addToBackStack(null)
+                    .commit();
         } else if (id == R.id.nav_lords) {
-            //TODO: Action
+            Fragment fragment = getSupportFragmentManager()
+                    .findFragmentByTag(Constants.FRAGMENT_LORDS);
+
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.main_content);
+
+            if (fragment == currentFragment) {
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+            }
+
+            if (fragment == null) {
+                fragment = new LordListFragment();
+            }
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_content, fragment)
+                    .addToBackStack(null)
+                    .commit();
         } else if (id == R.id.nav_debates) {
             //TODO: Action
         } else if (id == R.id.nav_written_answers) {

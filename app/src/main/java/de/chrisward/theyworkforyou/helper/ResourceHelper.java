@@ -12,6 +12,7 @@ public class ResourceHelper {
             case "Green":
                 return R.color.green;
             case "Labour":
+            case "Labour/Co-operative":
                 return R.color.labour;
             case "Liberal Democrat":
                 return R.color.libdem;

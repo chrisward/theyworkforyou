@@ -9,6 +9,7 @@ class Migrations {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE IF NOT EXISTS `mps` (`member_id` INTEGER, `person_id` INTEGER, `name` TEXT, `party` TEXT, `constituency` TEXT, PRIMARY KEY (`member_id`))");
+            database.execSQL("CREATE TABLE IF NOT EXISTS `lords` (`member_id` INTEGER, `person_id` INTEGER, `name` TEXT, `party` TEXT, PRIMARY KEY (`member_id`))");
         }
     };
 }

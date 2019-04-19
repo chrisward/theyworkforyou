@@ -5,14 +5,16 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+import de.chrisward.theyworkforyou.model.Lord;
 import de.chrisward.theyworkforyou.model.MP;
 
 @Database(
-        entities = {MP.class},
+        entities = {MP.class, Lord.class},
         version = 1
 )
 public abstract class TheyWorkForYouDatabase extends RoomDatabase {
     public abstract MPStore mpStore();
+    public abstract LordStore lordStore();
 
     private static final String DB_NAME = "theyworkforyou.db";
     private static volatile TheyWorkForYouDatabase dbInstance = null;

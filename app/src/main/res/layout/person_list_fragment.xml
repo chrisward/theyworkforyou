@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:text="@string/all_mps"
+        android:id="@+id/personListTitle"
         android:layout_width="match_parent"
         android:textStyle="bold"
         android:textColor="#000000"

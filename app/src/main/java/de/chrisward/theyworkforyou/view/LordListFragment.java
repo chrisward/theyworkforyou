@@ -16,13 +16,13 @@ import android.widget.TextView;
 import java.util.List;
 
 import de.chrisward.theyworkforyou.R;
-import de.chrisward.theyworkforyou.model.MP;
-import de.chrisward.theyworkforyou.view.adapter.MPAdapter;
-import de.chrisward.theyworkforyou.viewmodel.MPViewModel;
+import de.chrisward.theyworkforyou.model.Lord;
+import de.chrisward.theyworkforyou.view.adapter.LordAdapter;
+import de.chrisward.theyworkforyou.viewmodel.LordViewModel;
 
-public class MPListFragment extends Fragment implements MPAdapter.OnMPItemListener {
-    private RecyclerView mpRecyclerView;
-    private List<MP> mps;
+public class LordListFragment extends Fragment implements LordAdapter.OnLordItemListener {
+    private RecyclerView lordRecyclerView;
+    private List<Lord> lords;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,38 +47,38 @@ public class MPListFragment extends Fragment implements MPAdapter.OnMPItemListen
         }
 
         TextView personListTitle = getActivity().findViewById(R.id.personListTitle);
-        personListTitle.setText(R.string.all_mps);
+        personListTitle.setText(R.string.all_lords);
 
-        mpRecyclerView = getActivity().findViewById(R.id.personRecyclerView);
-        mpRecyclerView.setHasFixedSize(true);
-        mpRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        mpRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        lordRecyclerView = getActivity().findViewById(R.id.personRecyclerView);
+        lordRecyclerView.setHasFixedSize(true);
+        lordRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        lordRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        MPViewModel mpViewModel = ViewModelProviders.of(this).get(MPViewModel.class);
+        LordViewModel lordViewModel = ViewModelProviders.of(this).get(LordViewModel.class);
 
-        mpViewModel.mpList.observe(this, mps -> {
-            this.mps = mps;
+        lordViewModel.lordList.observe(this, lords -> {
+            this.lords = lords;
             if (getAdapter() != null) {
-                getAdapter().replaceAll(mps);
+                getAdapter().replaceAll(lords);
                 return;
             }
 
-            mpRecyclerView.setAdapter(
-                    new MPAdapter(mps, getLayoutInflater(), this)
+            lordRecyclerView.setAdapter(
+                    new LordAdapter(lords, getLayoutInflater(), this)
             );
         });
 
         if (savedInstanceState == null) {
-            mpViewModel.refreshMPs(this);
+            lordViewModel.refreshLords(this);
         }
     }
 
-    private MPAdapter getAdapter() {
-        return ((MPAdapter) mpRecyclerView.getAdapter());
+    private LordAdapter getAdapter() {
+        return ((LordAdapter) lordRecyclerView.getAdapter());
     }
 
     @Override
-    public void onMPItemClick(int position) {
-        // TODO: deal with the click.
+    public void onLordItemClick(int position) {
+        //TODO Handle click.
     }
 }
