@@ -1,0 +1,95 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "2d1f18a44df9970e0e5cef594bfcb4e3",
+    "entities": [
+      {
+        "tableName": "mps",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`member_id` INTEGER NOT NULL, `person_id` INTEGER NOT NULL, `name` TEXT NOT NULL, `party` TEXT NOT NULL, `constituency` TEXT NOT NULL, PRIMARY KEY(`member_id`))",
+        "fields": [
+          {
+            "fieldPath": "member_id",
+            "columnName": "member_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "person_id",
+            "columnName": "person_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "party",
+            "columnName": "party",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "constituency",
+            "columnName": "constituency",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "member_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "lords",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`member_id` INTEGER NOT NULL, `person_id` INTEGER NOT NULL, `name` TEXT NOT NULL, `party` TEXT NOT NULL, PRIMARY KEY(`member_id`))",
+        "fields": [
+          {
+            "fieldPath": "member_id",
+            "columnName": "member_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "person_id",
+            "columnName": "person_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "party",
+            "columnName": "party",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "member_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"2d1f18a44df9970e0e5cef594bfcb4e3\")"
+    ]
+  }
+}
