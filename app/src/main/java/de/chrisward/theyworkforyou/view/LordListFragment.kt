@@ -16,10 +16,11 @@ import de.chrisward.theyworkforyou.R
 import de.chrisward.theyworkforyou.model.Lord
 import de.chrisward.theyworkforyou.view.adapter.LordAdapter
 import de.chrisward.theyworkforyou.viewmodel.LordViewModel
+import kotlinx.android.synthetic.main.person_list_fragment.*
 
 class LordListFragment : Fragment(), LordAdapter.OnLordItemListener {
     private var lordRecyclerView: RecyclerView? = null
-    private var lords: List<Lord>? = null
+    private var lords: List<Lord> = ArrayList()
 
     private val adapter: LordAdapter?
         get() = lordRecyclerView!!.adapter as LordAdapter?
@@ -38,22 +39,19 @@ class LordListFragment : Fragment(), LordAdapter.OnLordItemListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (activity == null) {
-            return
-        }
-
-        val personListTitle = activity!!.findViewById<TextView>(R.id.personListTitle)
         personListTitle.setText(R.string.all_lords)
 
         lordRecyclerView = activity!!.findViewById(R.id.personRecyclerView)
-        lordRecyclerView!!.setHasFixedSize(true)
-        lordRecyclerView!!.addItemDecoration(DividerItemDecoration(activity!!, LinearLayoutManager.VERTICAL))
-        lordRecyclerView!!.layoutManager = LinearLayoutManager(activity)
+        lordRecyclerView!!.apply {
+            layoutManager = LinearLayoutManager(activity)
+            setHasFixedSize(true)
+            addItemDecoration(DividerItemDecoration(activity, LinearLayoutManager.VERTICAL))
+        }
 
         val lordViewModel = ViewModelProviders.of(this).get<LordViewModel>(LordViewModel::class.java)
 
-        lordViewModel.lordList.observe(this, Observer<List<Lord>?> { lords  ->
-            this.lords = lords
+        lordViewModel.lordList.observe(this, Observer<List<Lord>> { lords  ->
+            this.lords = lords!!
             if (adapter != null) {
                 adapter!!.replaceAll(lords)
             } else {

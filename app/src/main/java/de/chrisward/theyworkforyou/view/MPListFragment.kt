@@ -19,7 +19,7 @@ import de.chrisward.theyworkforyou.viewmodel.MPViewModel
 
 class MPListFragment : Fragment(), MPAdapter.OnMPItemListener {
     private var mpRecyclerView: RecyclerView? = null
-    private var mps: List<MP>? = null
+    private var mps: List<MP> = ArrayList()
 
     private val adapter: MPAdapter?
         get() = mpRecyclerView!!.adapter as MPAdapter?
@@ -38,22 +38,20 @@ class MPListFragment : Fragment(), MPAdapter.OnMPItemListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (activity == null) {
-            return
-        }
-
         val personListTitle = activity!!.findViewById<TextView>(R.id.personListTitle)
         personListTitle.setText(R.string.all_mps)
 
         mpRecyclerView = activity!!.findViewById(R.id.personRecyclerView)
-        mpRecyclerView!!.setHasFixedSize(true)
-        mpRecyclerView!!.addItemDecoration(DividerItemDecoration(activity!!, LinearLayoutManager.VERTICAL))
-        mpRecyclerView!!.layoutManager = LinearLayoutManager(activity)
+        mpRecyclerView!!.apply {
+            layoutManager = LinearLayoutManager(activity)
+            setHasFixedSize(true)
+            addItemDecoration(DividerItemDecoration(activity, LinearLayoutManager.VERTICAL))
+        }
 
         val mpViewModel = ViewModelProviders.of(this).get<MPViewModel>(MPViewModel::class.java)
 
         mpViewModel.mpList.observe(this, Observer<List<MP>> { mps ->
-            this.mps = mps
+            this.mps = mps!!
             if (adapter != null) {
                 adapter!!.replaceAll(mps)
             } else {

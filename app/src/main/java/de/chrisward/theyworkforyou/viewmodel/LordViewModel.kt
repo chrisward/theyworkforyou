@@ -13,11 +13,7 @@ import de.chrisward.theyworkforyou.model.Lord
 import de.chrisward.theyworkforyou.wrapper.Resource
 
 class LordViewModel(application: Application) : AndroidViewModel(application) {
-    val lordList: LiveData<List<Lord>>
-
-    init {
-        this.lordList = TheyWorkForYouDatabase.get(application)!!.lordStore().selectAllLords()
-    }
+    val lordList: LiveData<List<Lord>> = TheyWorkForYouDatabase.get(application)!!.lordStore().selectAllLords()
 
     fun refreshLords(lifecycleOwner: LifecycleOwner) {
         LordRepository.getInstance(getApplication()).refreshLords().observe(

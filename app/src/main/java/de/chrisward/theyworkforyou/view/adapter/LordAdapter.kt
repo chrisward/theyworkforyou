@@ -12,7 +12,7 @@ import de.chrisward.theyworkforyou.customview.CircleView
 import de.chrisward.theyworkforyou.helper.ResourceHelper
 import de.chrisward.theyworkforyou.model.Lord
 
-class LordAdapter(private var lords: List<Lord>?, private val layoutInflater: LayoutInflater, private val lordItemListener: OnLordItemListener) : RecyclerView.Adapter<LordAdapter.LordViewHolder>() {
+class LordAdapter(private var lords: List<Lord>, private val layoutInflater: LayoutInflater, private val lordItemListener: OnLordItemListener) : RecyclerView.Adapter<LordAdapter.LordViewHolder>() {
 
     init {
         setHasStableIds(true)
@@ -30,30 +30,21 @@ class LordAdapter(private var lords: List<Lord>?, private val layoutInflater: La
     }
 
     override fun onBindViewHolder(holder: LordViewHolder, position: Int) {
-        holder.bind(lords!![position])
+        holder.bind(lords[position])
     }
 
-    override fun getItemCount(): Int {
-        return lords!!.size
-    }
+    override fun getItemCount(): Int = lords.size
 
-    fun replaceAll(newList: List<Lord>?) {
+    fun replaceAll(newList: List<Lord>) {
         //TODO: Use diffutil.
         lords = newList
         notifyDataSetChanged()
     }
 
-    class LordViewHolder(itemView: View, var onLordItemListener: OnLordItemListener) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        var name: TextView
-        var party: TextView
-        var partyColor: CircleView
-
-        init {
-
-            name = itemView.findViewById(R.id.name)
-            party = itemView.findViewById(R.id.party)
-            partyColor = itemView.findViewById(R.id.partyColorCircle)
-        }
+    class LordViewHolder(itemView: View, private val onLordItemListener: OnLordItemListener) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+        val name: TextView = itemView.findViewById(R.id.name)
+        val party: TextView = itemView.findViewById(R.id.party)
+        private val partyColor: CircleView = itemView.findViewById(R.id.partyColorCircle)
 
         fun bind(lord: Lord) {
             name.text = lord.name

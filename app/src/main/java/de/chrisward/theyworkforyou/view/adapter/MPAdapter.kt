@@ -12,10 +12,9 @@ import de.chrisward.theyworkforyou.customview.CircleView
 import de.chrisward.theyworkforyou.helper.ResourceHelper
 import de.chrisward.theyworkforyou.model.MP
 
-class MPAdapter(private var mps: List<MP>?, private val layoutInflater: LayoutInflater, private val personItemListener: OnMPItemListener) : RecyclerView.Adapter<MPAdapter.PersonRowHolder>() {
+class MPAdapter(private var mps: List<MP>, private val layoutInflater: LayoutInflater, private val personItemListener: OnMPItemListener) : RecyclerView.Adapter<MPAdapter.PersonRowHolder>() {
 
     init {
-
         setHasStableIds(true)
     }
 
@@ -31,35 +30,25 @@ class MPAdapter(private var mps: List<MP>?, private val layoutInflater: LayoutIn
     }
 
     override fun onBindViewHolder(holder: PersonRowHolder, position: Int) {
-        holder.bind(mps!![position])
+        holder.bind(mps[position])
     }
 
     override fun getItemId(position: Int): Long {
-        return mps!![position].member_id.toLong()
+        return mps[position].member_id.toLong()
     }
 
-    override fun getItemCount(): Int {
-        return if (mps == null) 0 else mps!!.size
-    }
+    override fun getItemCount(): Int = mps.size
 
-    fun replaceAll(newProducts: List<MP>?) {
+    fun replaceAll(newProducts: List<MP>) {
         this.mps = newProducts
         notifyDataSetChanged()
     }
 
     class PersonRowHolder(itemView: View, var onMPItemListener: OnMPItemListener) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        var name: TextView
-        var party: TextView
-        var constituency: TextView
-        var partyColor: CircleView
-
-        init {
-
-            name = itemView.findViewById(R.id.name)
-            party = itemView.findViewById(R.id.party)
-            constituency = itemView.findViewById(R.id.constituency)
-            partyColor = itemView.findViewById(R.id.partyColorCircle)
-        }
+        var name: TextView = itemView.findViewById(R.id.name)
+        var party: TextView = itemView.findViewById(R.id.party)
+        var constituency: TextView = itemView.findViewById(R.id.constituency)
+        var partyColor: CircleView = itemView.findViewById(R.id.partyColorCircle)
 
         fun bind(mp: MP) {
             name.text = mp.name
