@@ -1,8 +1,8 @@
 package de.chrisward.theyworkforyou.repository
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
 import de.chrisward.theyworkforyou.R
 import de.chrisward.theyworkforyou.api.MPApi
@@ -11,14 +11,9 @@ import de.chrisward.theyworkforyou.wrapper.Resource
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class MPRepository private constructor(apiKey: String) : BaseRepository(apiKey) {
-    private val mpApi: MPApi
-
-    init {
-        mpApi = retrofit.create(MPApi::class.java)
-    }
-
+class MPRepository @Inject constructor(private val mpApi: MPApi) {
     fun refreshMPs(): LiveData<Resource<List<MP>>> {
         val data = MutableLiveData<Resource<List<MP>>>()
 
@@ -37,20 +32,4 @@ class MPRepository private constructor(apiKey: String) : BaseRepository(apiKey) 
 
         return data
     }
-
-    companion object {
-        private var instance: MPRepository? = null
-
-        @Synchronized
-        fun getInstance(context: Context): MPRepository {
-            if (instance == null) {
-                instance = MPRepository(
-                        context.resources.getString(R.string.theyworkforyou_api_key)
-                )
-            }
-
-            return instance as MPRepository
-        }
-    }
-
 }

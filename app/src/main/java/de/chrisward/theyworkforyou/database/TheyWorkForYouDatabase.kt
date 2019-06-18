@@ -1,9 +1,9 @@
 package de.chrisward.theyworkforyou.database
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.Room
-import android.arch.persistence.room.RoomDatabase
 import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 
 import de.chrisward.theyworkforyou.model.Lord
 import de.chrisward.theyworkforyou.model.MP
@@ -22,8 +22,12 @@ abstract class TheyWorkForYouDatabase : RoomDatabase() {
         @Synchronized
         operator fun get(context: Context): TheyWorkForYouDatabase? {
             if (dbInstance == null) {
-                val builder: RoomDatabase.Builder<TheyWorkForYouDatabase>
-                builder = Room.databaseBuilder(context.applicationContext, TheyWorkForYouDatabase::class.java, DB_NAME)
+                val builder: Builder<TheyWorkForYouDatabase> =
+                        Room.databaseBuilder(
+                                context.applicationContext,
+                                TheyWorkForYouDatabase::class.java,
+                                DB_NAME
+                        )
                 dbInstance = builder.addMigrations(Migrations.FROM_0_TO_1).build()
             }
 

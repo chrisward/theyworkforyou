@@ -1,38 +1,45 @@
 package de.chrisward.theyworkforyou.viewmodel
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 
 import de.chrisward.theyworkforyou.database.LordStore
 import de.chrisward.theyworkforyou.repository.LordRepository
 import de.chrisward.theyworkforyou.database.TheyWorkForYouDatabase
 import de.chrisward.theyworkforyou.model.Lord
 import de.chrisward.theyworkforyou.wrapper.Resource
+import javax.inject.Inject
 
-class LordViewModel(application: Application) : AndroidViewModel(application) {
-    val lordList: LiveData<List<Lord>> = TheyWorkForYouDatabase.get(application)!!.lordStore().selectAllLords()
+class LordViewModel
+@Inject constructor(
+    application: Application,
+    val lordRepository: LordRepository,
+    val theyWorkForYouDatabase: TheyWorkForYouDatabase,
+    val lordStore: LordStore
+) : AndroidViewModel(application) {
+    val lordList: LiveData<List<Lord>> = lordStore.selectAllLords()
 
     fun refreshLords(lifecycleOwner: LifecycleOwner) {
-        LordRepository.getInstance(getApplication()).refreshLords().observe(
+        lordRepository
+            .refreshLords()
+            .observe(
                 lifecycleOwner,
                 Observer<Resource<List<Lord>>> { lords ->
                     when (lords!!.status) {
                         Resource.Status.SUCCESS -> {
-                            val store = TheyWorkForYouDatabase.get(getApplication())!!.lordStore()
-
                             object : Thread() {
                                 override fun run() {
                                     if (lords.data == null) {
                                         return
                                     }
 
-                                    TheyWorkForYouDatabase.get(getApplication())!!.clearAllTables()
+                                    theyWorkForYouDatabase.clearAllTables()
 
                                     for (lord in lords.data.orEmpty()) {
-                                        store.insert(lord)
+                                        lordStore.insert(lord)
                                     }
                                 }
                             }.start()
