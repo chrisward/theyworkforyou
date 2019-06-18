@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import de.chrisward.theyworkforyou.Coroutines
 import de.chrisward.theyworkforyou.database.MPStore
 import de.chrisward.theyworkforyou.database.TheyWorkForYouDatabase
 import de.chrisward.theyworkforyou.model.MP
@@ -33,19 +34,13 @@ class MPViewModel
                 Observer<Resource<List<MP>>> { mps ->
                     when (mps!!.status) {
                         Resource.Status.SUCCESS -> {
-                            object : Thread() {
-                                override fun run() {
-                                    if (mps.data == null) {
-                                        return
-                                    }
+                            Coroutines.io {
+                                theyWorkForYouDatabase.clearAllTables()
 
-                                    theyWorkForYouDatabase.clearAllTables()
-
-                                    for (mp in mps.data.orEmpty()) {
-                                        mpStore.insert(mp)
-                                    }
+                                for (mp in mps.data.orEmpty()) {
+                                    mpStore.insert(mp)
                                 }
-                            }.start()
+                            }
                         }
                         Resource.Status.ERROR -> {
                             //ERROR HANDLING HERE

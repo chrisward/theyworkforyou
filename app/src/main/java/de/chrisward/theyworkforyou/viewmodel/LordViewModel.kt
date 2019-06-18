@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import de.chrisward.theyworkforyou.Coroutines
 
 import de.chrisward.theyworkforyou.database.LordStore
 import de.chrisward.theyworkforyou.repository.LordRepository
@@ -30,19 +31,13 @@ class LordViewModel
                 Observer<Resource<List<Lord>>> { lords ->
                     when (lords!!.status) {
                         Resource.Status.SUCCESS -> {
-                            object : Thread() {
-                                override fun run() {
-                                    if (lords.data == null) {
-                                        return
-                                    }
+                            Coroutines.io {
+                                theyWorkForYouDatabase.clearAllTables()
 
-                                    theyWorkForYouDatabase.clearAllTables()
-
-                                    for (lord in lords.data.orEmpty()) {
-                                        lordStore.insert(lord)
-                                    }
+                                for (lord in lords.data.orEmpty()) {
+                                    lordStore.insert(lord)
                                 }
-                            }.start()
+                            }
                         }
                         Resource.Status.ERROR -> {
                             //ERROR HANDLING HERE
